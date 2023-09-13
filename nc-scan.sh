@@ -128,7 +128,7 @@ valida_bloco() {
 	  prange_inicial=$1
 	  prange_final=$2
 	  local ip_saida=$(echo $bloco | awk -F '[.]' '{print $1"."$2"."$3"."}')
-	  for octeto in $(seq 8 8); do
+	  for octeto in $(seq 1 254); do
 		  bloco_ip="$ip_saida$octeto"
 		  for port in $(seq $prange_inicial $prange_final);do
 			  nc -zv "$bloco_ip" "$port" 2>&1 | awk '/succeeded/{print $3,$4,$5,$6}' >> $OUT_SCAN
@@ -139,7 +139,7 @@ valida_bloco() {
   if [ -n "$bloco" ] && [ -n "$range" ];then
 	  executa_bloco_range "$port_inicial $port_final"
   else
-	  executa_bloco_range 1 2000
+	  executa_bloco_range 1 65535
   fi
 }
 
